@@ -25,10 +25,19 @@ COPY . .
 # Instala dependências PHP
 RUN composer install --no-dev --optimize-autoloader
 
+# Garante que o .env existe (se for copiar do host)
+# COPY .env.example .env  # ou se você tiver um .env pronto
+
+# Gera a APP_KEY
+RUN php artisan key:generate
+
+# Roda as migrations
+RUN php artisan migrate --force
+
 # Permissões
 RUN chown -R www-data:www-data /var/www
 
-# Expõe porta padrão do Laravel
+# Expõe a porta correta
 EXPOSE 8000
 
 # Comando para rodar o servidor Laravel
