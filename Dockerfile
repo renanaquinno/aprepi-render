@@ -1,36 +1,44 @@
-# Etapa 1: Imagem base para build
-FROM php:8.2-fpm as base
+FROM php:8.2-fpm
 
-# Instala dependências do sistema
+# Instala dependências básicas do sistema
 RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    unzip \
-    libzip-dev \
+    build-essential \
     libpng-dev \
+    libjpeg-dev \
     libonig-dev \
     libxml2-dev \
-    libpq-dev \
     zip \
-    && docker-php-ext-install pdo pdo_pgsql zip
+    unzip \
+    curl \
+    git \
+    libzip-dev \
+    libpq-dev \
+    libsqlite3-dev \
+    libfreetype6-dev \
+    libjpeg62-turbo-dev \
+    libpng-dev \
+    libwebp-dev \
+    libxpm-dev \
+    libvpx-dev
+
+# Instala extensões do PHP, incluindo pdo_mysql
+RUN docker-php-ext-install pdo pdo_mysql mbstring exif pcntl bcmath gd zip
 
 # Instala o Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Cria diretório da aplicação
+# Define diretório de trabalho
 WORKDIR /var/www
 
-# Copia os arquivos da aplicação
+# Copia os arquivos do projeto
 COPY . .
 
-# Instala dependências PHP
-RUN composer install --no-dev --optimize-autoloader
+# Instala dependências do Laravel
+RUN composer install --optimize-autoloader --no-dev
 
-# Garante permissões corretas
-RUN chown -R www-data:www-data /var/www
+# Permissões
+RUN chown -R www-data:www-data /var/www \
+    && chmod -R 755 /var/www
 
-# Expõe a porta padrão do Laravel
-EXPOSE 8000
-
-# Comando para rodar o servidor Laravel
-CMD php artisan serve --host=0.0.0.0 --port=${PORT:-8000}
+EXPOSE 9000
+CMD ["php-fpm"]
