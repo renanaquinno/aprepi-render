@@ -16,6 +16,13 @@
                     @method('PUT')
                 @endif
 
+                @php
+                    $participantesSelecionados = old('participantes', isset($evento) 
+                        ? $evento->participantes->whereIn('tipo_usuario', ['voluntario_adm', 'voluntario_ext'])->pluck('id')->toArray() 
+                        : []);
+                @endphp
+
+
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                     {{-- Título --}}
                     <div>
@@ -62,23 +69,24 @@
                             {{ old('recorrente', $evento->recorrente ?? false) ? 'checked' : '' }}>
 
                         <label for="recorrente" class="ml-2 text-sm text-gray-700">Evento Recorrente</label>
-
                     </div>
-                   
 
+                    {{-- Participantes --}}
                     <div class="md:col-span-2">
-                            <x-input-label for="participantes" value="Participantes (Voluntários)" />
-                            <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
-                                @foreach ($usuarios as $usuario)
-                                    <label class="flex items-center space-x-2">
-                                        <input type="checkbox" name="participantes[]" value="{{ $usuario->id }}"
-                                            {{ (in_array($usuario->id, old('participantes', $evento->participantes->pluck('id')->toArray() ?? []))) ? 'checked' : '' }}>
-                                        <span>{{ $usuario->name }}</span>
-                                    </label>
-                                @endforeach
-                            </div>
+                        <x-input-label for="participantes" value="Participantes (Voluntários)" />
+                        <div class="grid grid-cols-2 md:grid-cols-3 gap-2">
+                            @foreach ($usuarios as $usuario)
+                                <label class="flex items-center space-x-2">
+                                    <input type="checkbox" name="participantes[]" value="{{ $usuario->id }}"
+                                {{ in_array($usuario->id, $participantesSelecionados) ? 'checked' : '' }}>
+
+                                    <span>{{ $usuario->name }}</span>
+                                </label>
+                            @endforeach
                         </div>
-                    {{-- Descrição (ocupa a largura total) --}}
+                    </div>
+
+                    {{-- Descrição --}}
                     <div class="md:col-span-2">
                         <x-input-label value="Descrição" />
                         <textarea name="descricao" rows="3"

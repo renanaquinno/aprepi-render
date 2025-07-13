@@ -23,7 +23,7 @@ class UserController extends Controller
             $query->where('tipo_usuario', $request->input('tipo_usuario'));
         }
 
-        $usuarios = $query->orderBy('name')->paginate(10);
+        $usuarios = $query->paginate(10)->withQueryString();
 
         return view('usuarios.index', compact('usuarios'));
     }
@@ -41,7 +41,16 @@ class UserController extends Controller
             'email' => 'required|email|unique:users,email',
             'cpf' => 'required|unique:users,cpf',
             'password' => 'required|min:6',
-            'tipo_usuario' => 'required|in:admin,voluntario,socio,doador',
+            'tipo_usuario' => 'required|in:admin,voluntario_adm,voluntario_ext,socio,doador',
+            ], [
+            'name.required' => 'O nome é obrigatório.',
+            'email.required' => 'O email é obrigatório.',
+            'email.email' => 'Informe um email válido.',
+            'email.unique' => 'Este email já está cadastrado.',
+            'cpf.required' => 'O CPF é obrigatório.',
+            'cpf.unique' => 'Este CPF já está cadastrado.',
+            'tipo_usuario.required' => 'Selecione o tipo de usuário.',
+            'tipo_usuario.in' => 'Tipo de usuário inválido.',
         ]);
 
         User::create([
@@ -62,22 +71,45 @@ class UserController extends Controller
 
     public function update(Request $request, User $user)
     {
-        $request->validate([
+        $validated = $request->validate([
             'name' => 'required',
             'email' => 'required|email|unique:users,email,' . $user->id,
             'cpf' => 'required|unique:users,cpf,' . $user->id,
-            'tipo_usuario' => 'required|in:admin,voluntario,socio,doador',
+            'tipo_usuario' => 'required|in:admin,voluntario_adm,voluntario_ext,socio,doador',
+        ], [
+            'name.required' => 'O nome é obrigatório.',
+            'email.required' => 'O email é obrigatório.',
+            'email.email' => 'Informe um email válido.',
+            'email.unique' => 'Este email já está cadastrado.',
+            'cpf.required' => 'O CPF é obrigatório.',
+            'cpf.unique' => 'Este CPF já está cadastrado.',
+            'tipo_usuario.required' => 'Selecione o tipo de usuário.',
+            'tipo_usuario.in' => 'Tipo de usuário inválido.',
         ]);
+
+        // Restrição para voluntário_adm não alterar tipo_usuario
+        if (auth()->user()->isVoluntarioAdm()) {
+$request->merge(['tipo_usuario' => $user->tipo_usuario]);
+        }
 
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
             'cpf' => $request->cpf,
+            'data_nascimento' => $request->data_nascimento,
+            'telefone' => $request->telefone,
+            'endereco' => $request->endereco,
+            'cidade' => $request->cidade,
+            'estado' => $request->estado,
+            'cep' => $request->cep,
+            'observacoes' => $request->observacoes,
+            'ativo' => $request->ativo,
             'tipo_usuario' => $request->tipo_usuario,
         ]);
 
         return redirect()->route('usuarios.index')->with('success', 'Usuário atualizado com sucesso!');
     }
+
 
     public function destroy(User $user)
     {

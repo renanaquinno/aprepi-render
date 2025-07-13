@@ -81,7 +81,8 @@
                     <tbody>
                         @forelse ($eventos as $evento)
                             <tr class="odd:bg-white even:bg-gray-50 hover:bg-blue-50">
-                                <td class="px-4 py-2"> {{ ($eventos->currentPage() - 1) * $eventos->perPage() + $loop->iteration }}</td>
+                                <td class="px-4 py-2"> {{ ($eventos->currentPage() - 1) * $eventos->perPage() + $loop->iteration }}
+                                </td>
                                 <td class="px-4 py-2">{{ $evento->titulo }}</td>
                                 <td class="px-4 py-2">{{ \Carbon\Carbon::parse($evento->data_hora)->format('d/m/Y') }}</td>
                                 <td class="px-4 py-2">{{ $evento->local }}</td>
@@ -109,17 +110,19 @@
 									d="M15.232 5.232l3.536 3.536M9 13L3 21h8l11-11a2.828 2.828 0 00-4-4L9 13z"/>
 							</svg>
 						</a>
-						<form action="{{ route('eventos.destroy', $evento) }}" method="POST" 
-						onsubmit="return confirm('Deseja excluir este evento?')">
-						@csrf
-						@method('DELETE')
-							<button type="submit" class="text-red-600 hover:text-red-800" title="Excluir">
-							<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-							d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3m5 0H6"/>
-							</svg>
-							</button>
-						</form>
+                        @if(auth()->user()->isAdmin())
+                            <form action="{{ route('admin.eventos.destroy', $evento) }}" method="POST" 
+                            onsubmit="return confirm('Deseja excluir este evento?')">
+                            @csrf
+                            @method('DELETE')
+                                <button type="submit" class="text-red-600 hover:text-red-800" title="Excluir">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3m5 0H6"/>
+                                </svg>
+                                </button>
+                            </form>
+                        @endif
                                 </td>
                             </tr>
                         @empty

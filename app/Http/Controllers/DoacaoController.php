@@ -29,8 +29,7 @@ class DoacaoController extends Controller
         // Clona antes da paginação
         $totalQuery = (clone $query);
         $total = $totalQuery->sum('valor'); // Correto agora
-
-        $doacoes = $query->paginate(10)->withQueryString(); // Paginação preservando filtros
+        $doacoes = $query->orderBy('data_doacao', 'desc')->paginate(10)->withQueryString(); // Paginação preservando filtros
 
         $usuarios = User::all();
 

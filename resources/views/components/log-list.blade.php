@@ -7,7 +7,7 @@
         @php
             // Closure para traduzir os valores
             $friendlyValue = function($key, $val) {
-                if ($key === 'user_id') {
+                if ($key === 'user_id' || $key === 'origem') {
                     return \App\Models\User::find($val)?->name ?? $val;
                 }
                 if ($key === 'recorrente') {

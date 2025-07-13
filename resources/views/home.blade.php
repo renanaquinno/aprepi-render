@@ -18,7 +18,7 @@
         </p>
 
         {{-- Botão de Ação --}}
-        <a href="#"
+        <a href="{{ route('voluntariado.create') }}" 
            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-3 rounded-md shadow-md transition">
             Solicitar cadastro para voluntário
         </a>

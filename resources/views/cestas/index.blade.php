@@ -82,7 +82,7 @@
             <table class="w-full text-sm text-left text-gray-700">
                 <thead class="bg-slate-300">
                     <tr>
-                        <th class="px-4 py-2">Ord.</th>
+                        <th class="px-4 py-2">Ord.   <span class="text-xs text-gray-500 select-none">(#id)</span></th>
                         <th class="px-4 py-2">Data Recebimento</th>
                         <th class="px-4 py-2">Tipo</th>
                         <th class="px-4 py-2">Origem</th>
@@ -141,7 +141,8 @@
                                         d="M15.232 5.232l3.536 3.536M9 13L3 21h8l11-11a2.828 2.828 0 00-4-4L9 13z" />
                                 </svg>
                             </a>
-                            <form action="{{ route('cestas.destroy', $cesta) }}" method="POST"
+                            @if(auth()->user()->isAdmin())
+                            <form action="{{ route('admin.cestas.destroy', $cesta) }}" method="POST"
                                   onsubmit="return confirm('Deseja excluir esta cesta?')">
                                 @csrf
                                 @method('DELETE')
@@ -153,6 +154,8 @@
                                     </svg>
                                 </button>
                             </form>
+                            @endif
+
 				        @if($cesta->status == 'disponivel')
 					<a href="{{ route('cestas.entregar.form', $cesta) }}" 
 						class="text-green-600 hover:text-green-800" 

@@ -36,12 +36,14 @@ class EventoController extends Controller
 
     public function create()
     {
-        $usuarios = User::orderBy('name')->get();
+        $usuarios = User::whereIn('tipo_usuario', ['voluntario_adm', 'voluntario_ext'])
+        ->orderBy('name')
+        ->get();
         return view('eventos.form', compact('usuarios'));
     }
 
         public function store(Request $request)
-    {
+        {
         $request->validate([
             'titulo' => 'required|string',
             'data_hora' => 'required|date',
@@ -74,7 +76,9 @@ class EventoController extends Controller
 
     public function edit(Evento $evento)
     {
-        $usuarios = User::orderBy('name')->get();
+        $usuarios = User::whereIn('tipo_usuario', ['voluntario_adm', 'voluntario_ext'])
+        ->orderBy('name')
+        ->get();
         return view('eventos.form', compact('evento', 'usuarios'));
     }
 
@@ -126,7 +130,6 @@ class EventoController extends Controller
     public function destroy(Evento $evento)
     {
         $evento->delete();
-
         return redirect()->route('eventos.index')->with('success', 'Evento excluído com sucesso!');
     }
 

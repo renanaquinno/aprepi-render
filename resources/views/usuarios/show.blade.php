@@ -22,7 +22,29 @@
                     <p><strong>Data de Nascimento:</strong> 
                         {{ $user->data_nascimento ? \Carbon\Carbon::parse($user->data_nascimento)->format('d/m/Y') : '-' }}
                     </p>
-                    <p><strong>Tipo de Usuário:</strong> {{ ucfirst($user->tipo_usuario) }}</p>
+                    <p><strong>Tipo de Usuário:</strong> 
+                        @switch($user->tipo_usuario)
+                            @case('voluntario_ext')
+                                Voluntário Externo
+                                @break
+                            @case('voluntario_adm')
+                                Voluntário Administrativo
+                                @break
+                            @case('admin')
+                                Administrador
+                                @break
+                            @case('socio')
+                                Sócio
+                                @break
+                            @case('doador')
+                                Doador
+                                @break
+                            @default
+                                {{ ucfirst($user->tipo_usuario) }}
+                        @endswitch
+                    </p>
+                                   
+
                     <p><strong>Data de Cadastro:</strong> {{ $user->created_at->format('d/m/Y H:i') }}</p>
                 </div>
             </div>
@@ -54,14 +76,16 @@
                 </x-primary-button>
 
                 {{-- Botão Excluir --}}
-                <form action="{{ route('usuarios.destroy', $user) }}" method="POST"
-                onsubmit="return confirm('Deseja realmente excluir este usuário?')">
-                @csrf
-                @method('DELETE')
-                    <x-danger-button>
-                    Excluir
-                    </x-danger-button>
-                </form>
+                @if(auth()->user()->isAdmin())
+                    <form action="{{ route('admin.usuarios.destroy', $user) }}" method="POST"
+                    onsubmit="return confirm('Deseja realmente excluir este usuário?')">
+                    @csrf
+                    @method('DELETE')
+                        <x-danger-button>
+                        Excluir
+                        </x-danger-button>
+                    </form>
+                @endif
             </div>
 
         </div>

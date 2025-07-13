@@ -1,11 +1,9 @@
 <?php
-
 namespace Database\Seeders;
 
 use App\Models\Doacao;
 use App\Models\User;
 use Illuminate\Database\Seeder;
-use Illuminate\Support\Carbon;
 
 class DoacaoSeeder extends Seeder
 {
@@ -13,7 +11,7 @@ class DoacaoSeeder extends Seeder
     {
         $usuarios = User::all();
 
-        if ($usuarios->count() == 0) {
+        if ($usuarios->isEmpty()) {
             $this->command->info('Nenhum usuário encontrado. Crie usuários antes de rodar o seeder de doações.');
             return;
         }

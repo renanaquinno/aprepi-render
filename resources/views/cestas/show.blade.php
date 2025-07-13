@@ -45,7 +45,8 @@
                 </x-primary-button>
 
                 {{-- Botão Excluir --}}
-                <form action="{{ route('cestas.destroy', $cesta) }}" method="POST"
+                @if(auth()->user()->isAdmin())
+                <form action="{{ route('admin.cestas.destroy', $cesta) }}" method="POST"
                 onsubmit="return confirm('Deseja realmente excluir este evento?')">
                 @csrf
                 @method('DELETE')
@@ -53,6 +54,7 @@
                     Excluir
                     </x-danger-button>
                 </form>
+                @endif
             </div>
         </div>
     </div>

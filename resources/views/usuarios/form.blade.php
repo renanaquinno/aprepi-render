@@ -1,4 +1,14 @@
 <x-app-layout>
+    @if ($errors->any())
+    <div class="mb-4">
+        <ul class="list-disc list-inside text-sm text-red-600">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
     <x-page-header 
         title="Gerenciamento de Usuários"
         :breadcrumbs="[
@@ -10,7 +20,17 @@
 
     <div class="py-2">
         <div class="bg-white shadow-md rounded-lg p-8">
-            <form method="POST" action="{{ isset($user) ? route('usuarios.update', $user) : route('usuarios.store') }}">
+            @if ($errors->any())
+    <div class="mb-4">
+        <ul class="list-disc list-inside text-sm text-red-600">
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
+
+            <form method="POST" action="{{ isset($user) ? route('usuarios.update', $user) : route('admin.usuarios.store') }}">  
                 @csrf
                 @if(isset($user))
                     @method('PUT')
@@ -81,18 +101,29 @@
                         <x-text-input class="w-full" name="cep" 
                             value="{{ old('cep', $user->cep ?? '') }}" required />
                     </div>
-
+                   
                     {{-- Tipo de Usuário --}}
                     <div>
                         <x-input-label value="Tipo de Usuário" />
-                        <select name="tipo_usuario" class="w-full border-gray-300 rounded">
-                            @foreach(['admin', 'voluntario', 'socio', 'doador'] as $tipo_usuario)
+                        <select name="tipo_usuario" class="w-full border-gray-300 rounded"
+                            @if(auth()->user()->isVoluntarioAdm()) disabled @endif>
+                            @foreach(['admin', 'voluntario_adm', 'voluntario_ext', 'socio', 'doador'] as $tipo_usuario)
                                 <option value="{{ $tipo_usuario }}" 
                                     {{ (old('tipo_usuario', $user->tipo_usuario ?? '') == $tipo_usuario) ? 'selected' : '' }}>
-                                    {{ ucfirst($tipo_usuario) }}
+                                    {{
+                                        $tipo_usuario == 'admin' ? 'Administrador' :
+                                        ($tipo_usuario == 'voluntario_adm' ? 'Voluntário Administrativo' :
+                                        ($tipo_usuario == 'voluntario_ext' ? 'Voluntário Externo' :
+                                        ($tipo_usuario == 'socio' ? 'Sócio' :
+                                        ($tipo_usuario == 'doador' ? 'Doador' : ucfirst($tipo_usuario)))))
+                                    }}
                                 </option>
                             @endforeach
                         </select>
+
+                        @if(auth()->user()->isVoluntarioAdm())
+                            <input type="hidden" name="tipo_usuario" value="{{ old('tipo_usuario', $user->tipo_usuario ?? '') }}">
+                        @endif
                     </div>
 
                     {{-- Status --}}

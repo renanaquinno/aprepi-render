@@ -29,15 +29,18 @@
         </div>
 
         <!-- Tipo de Usuário -->
-        <div class="mt-4">
+       <div class="mt-4">
             <x-input-label for="tipo_usuario" :value="__('Tipo de Usuário')" />
             <select id="tipo_usuario" name="tipo_usuario" required
                 class="block mt-1 w-full border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 rounded-md shadow-sm">
                 <option value="socio">Sócio</option>
-                <option value="voluntario">Voluntário</option>
+                <option value="voluntario_adm">Voluntário Administrativo</option>
+                <option value="voluntario_ext">Voluntário Externo</option>
                 <option value="doador">Doador</option>
+                <option value="admin">Administrador</option>
             </select>
         </div>
+
 
         <!-- Email -->
         <div class="mt-4">

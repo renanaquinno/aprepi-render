@@ -44,13 +44,15 @@
                 </x-primary-button>
 
                 {{-- Botão Excluir --}}
-                <form action="{{ route('doacoes.destroy', $doacao) }}" method="POST" onsubmit="return confirm('Deseja realmente excluir esta doação?')">
-                    @csrf
-                    @method('DELETE')
-                    <x-danger-button>
-                        Excluir
-                    </x-danger-button>
-                </form>
+                @if(auth()->user()->isAdmin())
+                    <form action="{{ route('admin.doacoes.destroy', $doacao) }}" method="POST" onsubmit="return confirm('Deseja realmente excluir esta doação?')">
+                        @csrf
+                        @method('DELETE')
+                        <x-danger-button>
+                            Excluir
+                        </x-danger-button>
+                    </form>
+                @endif
             </div>
         </div>
     </div>

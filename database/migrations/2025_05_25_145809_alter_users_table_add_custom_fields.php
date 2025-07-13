@@ -15,7 +15,7 @@ return new class extends Migration
         $table->date('data_nascimento')->nullable();
         $table->string('telefone')->nullable();
         $table->string('cpf')->unique()->after('password');
-        $table->enum('tipo_usuario', ['admin', 'voluntario', 'socio', 'doador'])->default('socio');
+        $table->enum('tipo_usuario', ['admin', 'voluntario_adm', 'voluntario_ext', 'socio', 'doador'])->default('socio');
         $table->string('endereco')->nullable();
         $table->string('cidade')->nullable();
         $table->string('estado')->nullable();

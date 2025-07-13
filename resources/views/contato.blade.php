@@ -5,6 +5,11 @@
         ['label' => 'Contato']
     ]"
     />
+      @if(session('success'))
+    <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded mb-4">
+        {{ session('success') }}
+    </div>
+    @endif
 <div class="bg-white rounded-md mb-6">
     <div class="bg-white shadow-md rounded-lg p-8">
         <h1 class="text-3xl font-bold text-blue-700 mb-4">Fale Conosco</h1>
@@ -16,13 +21,13 @@
         {{-- Informações de Contato --}}
         <div class="mb-8">
             <h2 class="text-2xl font-semibold text-blue-600 mb-2">Informações de Contato</h2>
-            <p class="text-gray-700"><strong>Endereço:</strong> Rua Exemplo, 123 - Teresina, PI</p>
-            <p class="text-gray-700"><strong>Telefone:</strong> (86) 99999-9999</p>
+            <p class="text-gray-700"><strong>Endereço:</strong> Rua Rui Barbosa s/n Edifício Carlos Castelo Branco, Centro-Norte</p>
+            <p class="text-gray-700"><strong>Telefone:</strong> (86) 3223-7355</p>
             <p class="text-gray-700"><strong>Email:</strong> contato@aprepi.org.br</p>
         </div>
 
         {{-- Formulário de Contato --}}
-        <form action="#" method="POST" class="space-y-6">
+<form action="{{ route('contato.enviar') }}" method="POST" class="space-y-6">
             @csrf
 
             <div>
@@ -50,6 +55,7 @@
             </div>
 
             <div>
+                
                 <button type="submit"
                         class="bg-blue-600 text-white px-6 py-2 rounded-md hover:bg-blue-700 transition">
                     Enviar Mensagem

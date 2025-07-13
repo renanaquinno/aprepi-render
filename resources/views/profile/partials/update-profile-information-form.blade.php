@@ -1,4 +1,5 @@
 
+
 <section>
     <header>
         <h2 class="text-lg font-medium text-gray-900">
@@ -29,6 +30,13 @@
                 <x-text-input id="email" name="email" type="email" class="mt-1 block w-full" 
                     :value="old('email', $user->email)" required autocomplete="username" />
                 <x-input-error class="mt-2" :messages="$errors->get('email')" />
+            </div>
+
+            {{-- Tipo Usuario --}}
+            <div>
+                <x-input-label for="tipo_usuario" :value="__('Tipo de Usuário')" />
+                <input id="tipo_usuario" type="text" class="mt-1 block w-full bg-gray-100 cursor-not-allowed" 
+                    value="{{ $user->tipo_usuario_label }}" readonly />
             </div>
 
             {{-- CPF --}}

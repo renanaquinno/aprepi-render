@@ -23,7 +23,7 @@ trait LogAllActivity
         return LogOptions::defaults()
             ->logAll()
             ->logOnlyDirty()
-            ->logExcept(['updated_at', 'created_at']) // Ignorar campos automáticos
+            ->logExcept(['updated_at', 'created_at','password','remember_token','id']) // Ignorar campos automáticos
             ->useLogName(class_basename($this)); // Nome do log baseado na classe
     }
 }

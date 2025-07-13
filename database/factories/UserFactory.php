@@ -14,7 +14,7 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => bcrypt('password'), // senha padrão para todos
             'cpf' => $this->faker->unique()->cpf(false), // CPF sem máscara
-            'tipo_usuario' => $this->faker->randomElement(['admin', 'voluntario', 'socio', 'doador']),
+            'tipo_usuario' => $this->faker->randomElement(['admin', 'voluntario_adm', 'voluntario_ext', 'socio', 'doador']),
             'data_nascimento' => $this->faker->date('Y-m-d', '2005-01-01'),
             'telefone' => $this->faker->phoneNumber(),
             'endereco' => $this->faker->streetAddress(),

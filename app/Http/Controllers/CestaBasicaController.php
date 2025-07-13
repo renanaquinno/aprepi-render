@@ -36,7 +36,11 @@ class CestaBasicaController extends Controller
             $query->where('origem', $request->origem);
         }
 
-        $cestas = $query->orderBy('id', 'asc')->paginate(10);
+        if ($request->filled('destinatario')) {
+            $query->where('user_id', $request->destinatario);
+        }
+
+        $cestas = $query->orderBy('created_at', 'desc')->paginate(10);
         $usuarios = User::orderBy('name')->get();
 
         return view('cestas.index', compact('cestas', 'usuarios'));
@@ -113,7 +117,10 @@ class CestaBasicaController extends Controller
             return redirect()->route('cestas.index')->with('error', 'Esta cesta já foi entregue.');
         }
 
-        $usuarios = User::orderBy('name')->get();
+        $usuarios = User::where('tipo_usuario', 'socio')
+        ->orderBy('name')
+        ->get();
+
 
         return view('cestas.entregar', compact('cesta', 'usuarios'));
     }

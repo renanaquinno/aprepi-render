@@ -1,17 +1,4 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <title>Relatório de Cestas Básicas</title>
-    <style>
-        body { font-family: sans-serif; font-size: 12px; }
-        table { width: 100%; border-collapse: collapse; }
-        th, td { border: 1px solid #333; padding: 5px; }
-        th { background-color: #f2f2f2; }
-    </style>
-</head>
-<body>
-    <h2>Relatório de Cestas Básicas</h2>
+<x-relatorio-layout title="Relatório de Cestas Básicas">
     <table>
         <thead>
             <tr>
@@ -33,10 +20,9 @@
                     <td>{{ $cesta->origemPessoa->name ?? '-' }}</td>
                     <td>{{ ucfirst($cesta->status) }}</td>
                     <td>{{ $cesta->data_entrega ? \Carbon\Carbon::parse($cesta->data_entrega)->format('d/m/Y') : '-' }}</td>
-                    <td>{{ $cesta->usuarios->name ?? '-' }}</td>
+                    <td>{{$cesta->destinatario->name ?? '-' }}</td>
                 </tr>
             @endforeach
         </tbody>
     </table>
-</body>
-</html>
+</x-relatorio-layout>

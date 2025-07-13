@@ -47,7 +47,26 @@ class User extends Authenticatable
         return $this->belongsToMany(Evento::class, 'evento_user')->withTimestamps();
     }
 
+    public function isAdmin()
+    {
+        return $this->tipo_usuario === 'admin';
+    }
 
-    
+    public function isVoluntarioAdm()
+    {
+        return $this->tipo_usuario === 'voluntario_adm';
+    }
+
+    public function getTipoUsuarioLabelAttribute()
+    {
+        return match($this->tipo_usuario) {
+            'admin' => 'Administrador',
+            'voluntario_adm' => 'Voluntário Administrativo',
+            'voluntario_ext' => 'Voluntário Externo',
+            'socio' => 'Sócio',
+            default => ucfirst($this->tipo_usuario),
+        };
+    }
+
 }
 

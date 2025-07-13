@@ -47,7 +47,7 @@ class RegisteredUserController extends Controller
         'email' => 'required|string|email|max:255|unique:users,email',
         'cpf' => 'required|string|size:11|unique:users,cpf',
         'password' => 'required|string|confirmed|min:8',
-        'tipo_usuario' => 'required|in:admin,voluntario,socio,doador',
+        'tipo_usuario' => 'required|in:admin,voluntario_adm,voluntario_ext,socio,doador',
         ]);
 
         $user = User::create([
@@ -70,6 +70,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('home', absolute: false));
     }
 }
