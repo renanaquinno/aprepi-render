@@ -17,5 +17,4 @@ class DatabaseSeeder extends Seeder
             CestaBasicaSeeder::class
         ]);
     }
-
 }
