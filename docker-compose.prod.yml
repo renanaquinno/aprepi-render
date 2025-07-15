@@ -10,10 +10,7 @@ services:
     restart: unless-stopped
     working_dir: /var/www
     volumes:
-      - .:/var/www                # Código fonte + .env local disponível no container
-      - ./storage/logs:/var/www/storage/logs  # logs persistidos fora do container
-    ports:
-      - "9000:9000"              # PHP-FPM escutando na porta 9000
+      - .:/var/www
     networks:
       - laravel
 
@@ -22,10 +19,12 @@ services:
     container_name: nginx
     restart: unless-stopped
     ports:
-      - "80:80"                  # Porta 80 exposta para acessar Laravel via navegador
+      - "80:80"
+      - "443:443"
     volumes:
-      - .:/var/www               # Código fonte para Nginx servir
-      - ./nginx/nginx.conf:/etc/nginx/nginx.conf  # Config do Nginx personalizada
+      - .:/var/www
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/ssl:/etc/nginx/ssl          # Opcional, se quiser adicionar SSL
     depends_on:
       - app
     networks:
@@ -36,19 +35,18 @@ services:
     container_name: mysql
     restart: unless-stopped
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: laravel
-      MYSQL_USER: laravel
-      MYSQL_PASSWORD: laravel
-    ports:
-      - "3306:3306"              # Porta 3306 para acesso externo (opcional)
+      MYSQL_ROOT_PASSWORD: 5MDm]2s5g7
+      MYSQL_DATABASE: aprepi_db
+      MYSQL_USER: aprepi_user
+      MYSQL_PASSWORD: password
     volumes:
-      - dbdata:/var/lib/mysql    # Volume para persistir dados do MySQL
+      - dbdata:/var/lib/mysql
     networks:
       - laravel
 
 networks:
   laravel:
+    name: laravel-network
 
 volumes:
   dbdata:
