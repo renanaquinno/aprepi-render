@@ -36,7 +36,7 @@ services:
     restart: unless-stopped
     environment:
       MYSQL_ROOT_PASSWORD: password
-      MYSQL_DATABASE: aprepi
+      MYSQL_DATABASE: laravel
       MYSQL_USER: sail
       MYSQL_PASSWORD: password
     ports:
