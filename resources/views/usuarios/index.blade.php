@@ -12,7 +12,7 @@
             {{-- Botão + Filtros --}}
             <div class="flex justify-start items-center mb-4 gap-4">
                 @if(auth()->user()->isAdmin())
-                <a href="{{ route('admin.usuarios.create') }}" 
+                <a href="{{ route('usuarios.create') }}" 
                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
                     + Novo Usuário
                 </a>
@@ -51,7 +51,7 @@
                         <x-primary-button class="bg-sky-800 hover:bg-sky-900">
                             Filtrar 
                         </x-primary-button>
-                        <x-secondary-button onclick="window.location='{{ route('admin.usuarios.index') }}'">
+                        <x-secondary-button onclick="window.location='{{ route('usuarios.index') }}'">
                             Limpar
                         </x-secondary-button>
                     </div>
@@ -130,7 +130,7 @@
 
                                 {{-- Excluir (Lixeira) --}}
                                 @if(auth()->user()->isAdmin())
-                                    <form action="{{ route('admin.usuarios.destroy', $usuario) }}" method="POST" 
+                                    <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST" 
                                         onsubmit="return confirm('Deseja excluir este usuário?')">
                                         @csrf
                                         @method('DELETE')

@@ -37,13 +37,13 @@ class EventoController extends Controller
     public function create()
     {
         $usuarios = User::whereIn('tipo_usuario', ['voluntario_adm', 'voluntario_ext'])
-        ->orderBy('name')
-        ->get();
+            ->orderBy('name')
+            ->get();
         return view('eventos.form', compact('usuarios'));
     }
 
-        public function store(Request $request)
-        {
+    public function store(Request $request)
+    {
         $request->validate([
             'titulo' => 'required|string',
             'data_hora' => 'required|date',
@@ -77,8 +77,8 @@ class EventoController extends Controller
     public function edit(Evento $evento)
     {
         $usuarios = User::whereIn('tipo_usuario', ['voluntario_adm', 'voluntario_ext'])
-        ->orderBy('name')
-        ->get();
+            ->orderBy('name')
+            ->get();
         return view('eventos.form', compact('evento', 'usuarios'));
     }
 
@@ -87,7 +87,7 @@ class EventoController extends Controller
         return view('eventos.show', compact('evento'));
     }
 
-   public function update(Request $request, Evento $evento)
+    public function update(Request $request, Evento $evento)
     {
         $request->validate([
             'titulo' => 'required|string',
@@ -103,7 +103,7 @@ class EventoController extends Controller
         // Atualiza campos exceto participantes
         $evento->update($request->except('participantes'));
         $evento->participantes_nomes = $evento->participantes->pluck('name')->toArray();
-       
+
         $evento->skipLog = true; // Desliga o log automático temporariamente
 
         if ($request->has('participantes')) {
@@ -120,7 +120,8 @@ class EventoController extends Controller
                         'attributes' => ['participantes' => $atuais],
                     ])
                     ->log('Participantes atualizados');
-        }}
+            }
+        }
 
         return redirect()->route('eventos.index')->with('success', 'Evento atualizado com sucesso!');
     }
@@ -157,6 +158,7 @@ class EventoController extends Controller
 
         $pdf = Pdf::loadView('eventos.relatorio-pdf', compact('eventos'));
 
-        return $pdf->download('relatorio_eventos.pdf');
+        //return $pdf->download('relatorio_eventos.pdf');
+        return $pdf->stream('relatorio_eventos.pdf');
     }
 }

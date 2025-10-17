@@ -20,16 +20,24 @@
                     <x-nav-link :href="route('contato')" :active="request()->routeIs('contato')">
                         {{ __('Contato') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('postagens.index')" :active="request()->routeIs('postagens.index')">
+                        {{ __('Blog') }}
+                </x-nav-link>
                 </div>
             </div>
 
             <div class="hidden sm:flex sm:items-center sm:ms-6">
-                     @auth
-                    @if(auth()->user()->isAdmin() || auth()->user()->isVoluntarioAdm())
-                        <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
-                            {{ __('Dashboard') }}
-                        </x-nav-link>
-                    @endif
+                @auth
+                @if(auth()->user()->isAdmin() || auth()->user()->isVoluntarioAdm())
+                    <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
+                        {{ __('Dashboard') }}
+                    </x-nav-link>
+                @else
+                    <x-nav-link :href="route('doacoes.index')" :active="request()->routeIs('doacoes.index')">
+                        {{ __('Doação') }}
+                    </x-nav-link>
+                @endif
+
 
                     <x-dropdown align="right" width="48">
                         <x-slot name="trigger">

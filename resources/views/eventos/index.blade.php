@@ -111,7 +111,7 @@
 							</svg>
 						</a>
                         @if(auth()->user()->isAdmin())
-                            <form action="{{ route('admin.eventos.destroy', $evento) }}" method="POST" 
+                            <form action="{{ route('eventos.destroy', $evento) }}" method="POST" 
                             onsubmit="return confirm('Deseja excluir este evento?')">
                             @csrf
                             @method('DELETE')

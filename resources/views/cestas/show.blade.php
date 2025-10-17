@@ -46,7 +46,7 @@
 
                 {{-- Botão Excluir --}}
                 @if(auth()->user()->isAdmin())
-                <form action="{{ route('admin.cestas.destroy', $cesta) }}" method="POST"
+                <form action="{{ route('cestas.destroy', $cesta) }}" method="POST"
                 onsubmit="return confirm('Deseja realmente excluir este evento?')">
                 @csrf
                 @method('DELETE')

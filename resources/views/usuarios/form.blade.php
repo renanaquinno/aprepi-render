@@ -30,7 +30,7 @@
     </div>
 @endif
 
-            <form method="POST" action="{{ isset($user) ? route('usuarios.update', $user) : route('admin.usuarios.store') }}">  
+            <form method="POST" action="{{ isset($user) ? route('usuarios.update', $user) : route('usuarios.store') }}">  
                 @csrf
                 @if(isset($user))
                     @method('PUT')

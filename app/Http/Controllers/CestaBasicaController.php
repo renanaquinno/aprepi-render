@@ -167,6 +167,8 @@ class CestaBasicaController extends Controller
 
         $pdf = Pdf::loadView('cestas.relatorio-pdf', compact('cestas'));
 
-        return $pdf->download('relatorio_cestas.pdf');
+        //return $pdf->download('relatorio_cestas.pdf');
+        return $pdf->stream('relatorio_cestas.pdf');
+
     }
 }

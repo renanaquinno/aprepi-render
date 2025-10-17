@@ -29,19 +29,22 @@
                     {{-- Tipo de Entrada --}}
                     <div>
                         <x-input-label value="Tipo de Entrada" />
-                        <select name="entrada_tipo" class="w-full border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
+                        <select id="entrada_tipo" name="entrada_tipo" class="w-full border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500" required>
                             <option value="doacao" {{ old('entrada_tipo', $cesta->entrada_tipo ?? '') == 'doacao' ? 'selected' : '' }}>Doação</option>
                             <option value="compra" {{ old('entrada_tipo', $cesta->entrada_tipo ?? '') == 'compra' ? 'selected' : '' }}>Compra</option>
                         </select>
                     </div>
 
-                    {{-- Origem --}}
-                    <div>
-                        <x-input-label value="Origem (Quem doou ou vendeu)" />
-                        <select name="origem" class="w-full border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500">
-                            <option value="">Não informado</option>
+                    {{-- Origem (apenas para doação) --}}
+                    <div id="origem_doacao_div">
+                        <x-input-label value="Origem (quem doou)" />
+                        <!-- Campo hidden para enviar o valor correto -->
+                        <input type="hidden" name="origem" id="origem_hidden" value="{{ old('origem', $cesta->origem ?? '') }}">
+                        
+                        <select id="origem_doacao" class="w-full border-gray-300 rounded shadow-sm focus:ring-blue-500 focus:border-blue-500">
+                            <option value="">Selecione um doador</option>
                             @foreach($usuarios as $usuario)
-                                <option value="{{ $usuario->id }}"
+                                <option value="{{ $usuario->id }}" 
                                     {{ old('origem', $cesta->origem ?? '') == $usuario->id ? 'selected' : '' }}>
                                     {{ $usuario->name }}
                                 </option>
@@ -116,4 +119,36 @@
             </form>
         </div>
     </div>
+        
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const entrada = document.getElementById('entrada_tipo');
+    const origemSelect = document.getElementById('origem_doacao');
+    const origemHidden = document.getElementById('origem_hidden');
+
+    const fornecedorCompraId = '86'; // ID do usuário Fornecedor Compra
+
+    function atualizarOrigem() {
+        if (entrada.value === 'compra') {
+            origemSelect.value = fornecedorCompraId; // seleciona automaticamente
+            origemSelect.disabled = true; // não permite edição
+            origemSelect.classList.add('bg-gray-100', 'cursor-not-allowed');
+            origemHidden.value = fornecedorCompraId; // envia no form
+        } else {
+            origemSelect.disabled = false;
+            origemSelect.classList.remove('bg-gray-100', 'cursor-not-allowed');
+            origemHidden.value = origemSelect.value; // envia o selecionado
+        }
+    }
+
+    // Atualiza o hidden quando o usuário muda a seleção
+    origemSelect.addEventListener('change', () => {
+        origemHidden.value = origemSelect.value;
+    });
+
+    entrada.addEventListener('change', atualizarOrigem);
+    atualizarOrigem(); // inicializa corretamente
+});
+</script>
+
 </x-app-layout>

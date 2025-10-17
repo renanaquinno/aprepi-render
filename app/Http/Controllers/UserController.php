@@ -89,7 +89,7 @@ class UserController extends Controller
 
         // Restrição para voluntário_adm não alterar tipo_usuario
         if (auth()->user()->isVoluntarioAdm()) {
-$request->merge(['tipo_usuario' => $user->tipo_usuario]);
+            $request->merge(['tipo_usuario' => $user->tipo_usuario]);
         }
 
         $user->update([
@@ -136,7 +136,8 @@ $request->merge(['tipo_usuario' => $user->tipo_usuario]);
 
         $pdf = Pdf::loadView('usuarios.relatorio-pdf', compact('usuarios'));
 
-        return $pdf->download('relatorio_usuarios.pdf');
+        //return $pdf->download('relatorio_usuarios.pdf');
+        return $pdf->stream('relatorio_usuarios.pdf');
     }
 
 

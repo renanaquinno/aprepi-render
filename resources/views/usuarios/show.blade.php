@@ -62,8 +62,35 @@
                     {{ $user->observacoes ?? 'Nenhuma observação adicionada.' }}
                     </p>
                 </div>
-            </div>
+                
 
+            </div>
+<h2 class="text-lg font-bold mt-6">Histórico de Estadias</h2>
+                <table class="mt-2 w-full text-center text-sm">
+                    <thead>
+                        <tr>
+                            <th>Início</th>
+                            <th>Fim</th>
+                            <th>Duração</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($user->estadias as $estadia)
+                    
+                        <tr>
+                            <td>{{ \Carbon\Carbon::parse($estadia->data_inicio)->format('d/m/Y') }}</td>
+                            <td>{{ $estadia->data_fim ? \Carbon\Carbon::parse($estadia->data_fim)->format('d/m/Y') : 'Em andamento' }}</td>
+                            <td>
+                                @if($estadia->data_fim)
+                                    {{ \Carbon\Carbon::parse($estadia->data_inicio)->diffInDays($estadia->data_fim) }} dias
+                                @else
+                                    -
+                                @endif
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             <div class="mt-6 flex justify-end gap-4">
                 {{-- Botão Voltar --}}
                 <x-secondary-button onclick="window.location='{{ route('usuarios.index') }}'">
@@ -77,7 +104,7 @@
 
                 {{-- Botão Excluir --}}
                 @if(auth()->user()->isAdmin())
-                    <form action="{{ route('admin.usuarios.destroy', $user) }}" method="POST"
+                    <form action="{{ route('usuarios.destroy', $user) }}" method="POST"
                     onsubmit="return confirm('Deseja realmente excluir este usuário?')">
                     @csrf
                     @method('DELETE')

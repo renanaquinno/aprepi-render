@@ -12,19 +12,19 @@
         <div class="bg-white rounded-md mb-6 p-4">
             {{-- Botão Novo --}}
             <div class="flex justify-start items-center mb-4 gap-4">
-                <a href="{{ route('cestas.create') }}" 
-                   class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
-                    + Nova Cesta
-                </a>
-			<a href="{{ route('cestas.relatorio.pdf', request()->query()) }}" 
-			target="_blank"
-			class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
-			📄 Gerar PDF
-			</a>
+                    <a href="{{ route('cestas.create') }}" 
+                    class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+                        + Nova Cesta
+                    </a>
+                <a href="{{ route('cestas.relatorio.pdf', request()->query()) }}" 
+                target="_blank"
+                class="bg-green-600 text-white px-4 py-2 rounded hover:bg-green-700">
+                📄 Gerar PDF
+			    </a>
             </div>
             {{-- Filtros --}}
-		<form method="GET" class="flex gap-2 flex justify-between ">
-		<div class="flex gap-4">
+		    <form method="GET" class="flex gap-2 flex justify-between ">
+		    <div class="flex gap-4">
                 <div>
                     <label>Tipo de Entrada</label>
                     <select name="entrada_tipo" class="rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500">
@@ -64,14 +64,14 @@
                     </select>
                 </div>
                 </div>
-		<div class="flex gap-4">
-			<x-primary-button class="bg-sky-800 hover:bg-sky-900">
-			Filtrar
-			</x-primary-button>
-			<x-secondary-button onclick="window.location='{{ route('cestas.index') }}'">
-			Limpar
-			</x-secondary-button>
-		</div>
+            <div class="flex gap-4">
+                <x-primary-button class="bg-sky-800 hover:bg-sky-900">
+                Filtrar
+                </x-primary-button>
+                <x-secondary-button onclick="window.location='{{ route('cestas.index') }}'">
+                Limpar
+                </x-secondary-button>
+            </div>
 
             </form>
 	  </div>
@@ -126,7 +126,7 @@
 
                         <td class="px-4 py-2 flex space-x-2">
 					
-                            <a href="{{ route('cestas.show', $cesta) }}" class="text-blue-600 hover:text-blue-800" title="Detalhes">
+                            <a href="{{ route('cestas.show', $cesta) }}" class="text-green-600 hover:text-green-800" title="Detalhes">
                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
 							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
 								d="M4 4a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
@@ -134,7 +134,7 @@
 								d="M14 2v6h6"/>
 							</svg>
                             </a>
-                            <a href="{{ route('cestas.edit', $cesta) }}" class="text-yellow-600 hover:text-yellow-800" title="Editar">
+                            <a href="{{ route('cestas.edit', $cesta) }}" class="text-blue-600 hover:text-blue-800" title="Editar">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none"
                                     viewBox="0 0 24 24" stroke="currentColor">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
@@ -142,7 +142,7 @@
                                 </svg>
                             </a>
                             @if(auth()->user()->isAdmin())
-                            <form action="{{ route('admin.cestas.destroy', $cesta) }}" method="POST"
+                            <form action="{{ route('cestas.destroy', $cesta) }}" method="POST"
                                   onsubmit="return confirm('Deseja excluir esta cesta?')">
                                 @csrf
                                 @method('DELETE')
@@ -156,16 +156,16 @@
                             </form>
                             @endif
 
-				        @if($cesta->status == 'disponivel')
-					<a href="{{ route('cestas.entregar.form', $cesta) }}" 
-						class="text-green-600 hover:text-green-800" 
-						title="Entregar">
-						<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-							d="M9 17v-6h13m-5 5l5-5-5-5"/>
-						</svg>
-					</a>
-					@endif
+				            @if($cesta->status == 'disponivel')
+                            <a href="{{ route('cestas.entregar.form', $cesta) }}" 
+                                class="text-green-600 hover:text-green-800" 
+                                title="Entregar">
+                                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 inline" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
+                                    d="M9 17v-6h13m-5 5l5-5-5-5"/>
+                                </svg>
+                            </a>
+                            @endif
                         </td>
                     </tr>
                     @endforeach

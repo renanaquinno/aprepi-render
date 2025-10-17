@@ -1,25 +1,45 @@
 <x-guest-layout>
-    <div class="mb-4 text-sm text-gray-600">
-        {{ __('Esqueceu sua senha? Sem problemas. Basta nos informar seu endereço de e-mail e enviaremos um link para redefinição de senha que permitirá que você escolha uma nova.') }}
-    </div>
+  <div class="items-center flex justify-center bg-gray-100 pt-8">
+    <div class="shadow-md p-6 pt-8 rounded-xl bg-white shadow-2xl w-full max-w-md">
 
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
+      <!-- Título / Subtítulo -->
+      <h2 class="text-2xl font-semibold text-gray-700 text-center mb-1">
+        Recuperar Senha
+      </h2>
+      <p class="text-sm text-gray-500 text-center mb-6">
+        Informe seu e-mail e enviaremos um link para redefinir sua senha.
+      </p>
 
-    <form method="POST" action="{{ route('password.email') }}">
+      <!-- Status de Sessão -->
+      <x-auth-session-status class="mb-4 text-center" :status="session('status')" />
+
+      <!-- Formulário -->
+      <form method="POST" action="{{ route('password.email') }}" class="space-y-6">
         @csrf
 
-        <!-- Email Address -->
+        <!-- Email -->
         <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input id="email" class="block mt-1 w-full" type="email" name="email" :value="old('email')" required autofocus />
-            <x-input-error :messages="$errors->get('email')" class="mt-2" />
+          <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email</label>
+          <input id="email"
+                 type="email"
+                 name="email"
+                 value="{{ old('email') }}"
+                 required
+                 autofocus
+                 class="rounded-md block w-full border-0 border-b-2 border-gray-200 focus:border-blue-500 focus:outline-none pl-2 pr-10 py-3 text-gray-700"
+                 placeholder="seu@email.com">
+          <x-input-error :messages="$errors->get('email')" class="mt-2 text-sm text-red-600" />
         </div>
 
-        <div class="flex items-center justify-end mt-4">
-            <x-primary-button>
-                {{ __('Resetar Senha') }}
-            </x-primary-button>
+        <!-- Botão -->
+        <div>
+          <button type="submit"
+                  class="w-full rounded-md bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 shadow-md transition">
+            Enviar Link de Redefinição
+          </button>
         </div>
-    </form>
+      </form>
+
+    </div>
+  </div>
 </x-guest-layout>

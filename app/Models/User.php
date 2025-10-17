@@ -68,5 +68,10 @@ class User extends Authenticatable
         };
     }
 
+    public function estadias()
+    {
+        return $this->hasMany(Estadia::class);
+    }
+
 }
 
