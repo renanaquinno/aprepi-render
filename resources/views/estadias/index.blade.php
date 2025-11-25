@@ -85,17 +85,7 @@
                             <td class="px-4 py-2">{{ $estadia->observacoes ?? '-' }}</td>
                             
                             <td class="px-4 py-2 flex space-x-2">
-                                {{-- Detalhes (Arquivo) --}}
-                                <a href="{{ route('estadias.show', $estadia) }}" 
-                                class="text-green-600 hover:text-green-800" 
-                                title="Detalhes">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                            d="M4 4a2 2 0 012-2h7l5 5v11a2 2 0 01-2 2H6a2 2 0 01-2-2V4z"/>
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" 
-                                            d="M14 2v6h6"/>
-                                    </svg>
-                                </a>
+                                
 
                                 {{-- Editar (Pincel) --}}
                                 <a href="{{ route('estadias.edit', $estadia) }}" 

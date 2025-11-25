@@ -45,7 +45,7 @@
                     <label>Origem</label>
                     <select name="origem" class="rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500 w-48 truncate">
                         <option value="">Todos</option>
-                        @foreach($usuarios as $user)
+                        @foreach($origens as $user)
                             <option value="{{ $user->id }}" {{ request('origem') == $user->id ? 'selected' : '' }}>
                                 {{ $user->name }}
                             </option>
@@ -56,7 +56,7 @@
                     <label>Destinatario</label>
                     <select name="destinatario" class="rounded border-gray-300 focus:border-blue-500 focus:ring-blue-500 w-48 truncate">
                         <option value="">Todos</option>
-                        @foreach($usuarios as $user)
+                        @foreach($destinatarios as $user)
                             <option value="{{ $user->id }}" {{ request('user_id') == $user->id ? 'selected' : '' }}>
                                 {{ $user->name }}
                             </option>

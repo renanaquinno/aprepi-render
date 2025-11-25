@@ -41,9 +41,14 @@ class CestaBasicaController extends Controller
         }
 
         $cestas = $query->orderBy('created_at', 'desc')->paginate(10);
-        $usuarios = User::orderBy('name')->get();
+        $destinatarios = User::where('tipo_usuario', 'socio')
+            ->orderBy('name')
+            ->get();
 
-        return view('cestas.index', compact('cestas', 'usuarios'));
+        // LISTA PARA O SELECT DE ORIGEM (todos)
+        $origens = User::orderBy('name')->get();
+
+        return view('cestas.index', compact('cestas', 'destinatarios', 'origens'));
     }
 
     public function show(CestaBasica $cesta)
@@ -87,7 +92,7 @@ class CestaBasicaController extends Controller
 
     //  Atualizar cesta
     public function update(Request $request, CestaBasica $cesta)
-    {                
+    {
 
         $request->validate([
             'data_recebimento' => 'required|date',
@@ -118,8 +123,8 @@ class CestaBasicaController extends Controller
         }
 
         $usuarios = User::where('tipo_usuario', 'socio')
-        ->orderBy('name')
-        ->get();
+            ->orderBy('name')
+            ->get();
 
 
         return view('cestas.entregar', compact('cesta', 'usuarios'));
@@ -162,6 +167,13 @@ class CestaBasicaController extends Controller
         if ($request->filled('data_fim')) {
             $query->whereDate('data_recebimento', '<=', $request->data_fim);
         }
+        if ($request->filled('destinatario')) {
+            $query->where('user_id', $request->destinatario);
+        }
+
+        if ($request->filled('origemPessoa')) {
+            $query->where('origem', $request->origem);
+        }
 
         $cestas = $query->get();
 
@@ -169,6 +181,5 @@ class CestaBasicaController extends Controller
 
         //return $pdf->download('relatorio_cestas.pdf');
         return $pdf->stream('relatorio_cestas.pdf');
-
     }
 }

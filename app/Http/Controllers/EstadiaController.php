@@ -10,8 +10,6 @@ use Barryvdh\DomPDF\Facade\Pdf;
 
 class EstadiaController extends Controller
 {
-
-
     // Lista de estadias
     public function index(Request $request)
     {
@@ -30,7 +28,9 @@ class EstadiaController extends Controller
     // Formulário de criação
     public function create()
     {
-        $usuarios = User::orderBy('name')->get();
+        $usuarios = User::where('tipo_usuario', 'socio')
+            ->orderBy('name')
+            ->get();
         return view('estadias.form', compact('usuarios'));
     }
 

@@ -26,11 +26,6 @@ class Postagem extends Model
         'updated_at' => 'datetime',
     ];
 
-    // public function categoria()
-    // {
-    //     return $this->belongsTo(Categoria::class);
-    // }
-
     public function user()
     {
         return $this->belongsTo(User::class);

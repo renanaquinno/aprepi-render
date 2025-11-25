@@ -38,6 +38,14 @@ class DatasComemorativasController extends Controller
         return view('datas_comemorativas.show', compact('datas_comemorativa'));
     }
 
+    public function destroy($id)
+    {
+        $data = DataComemorativa::findOrFail($id);
+        $data->delete();
+        return redirect()->route('datas_comemorativas.index')->with('success', 'Data comemorativa excluída com sucesso!');
+    }
+
+
 
     public function store(Request $request)
     {
@@ -61,27 +69,27 @@ class DatasComemorativasController extends Controller
     {
         $usuarios = User::all();
 
-    //    foreach ($usuarios as $usuario) {
-    //         $mensagemFinal = [
-    //             'titulo' => $dataComemorativa->titulo,
-    //             'mensagem' => $dataComemorativa->mensagem
-    //         ];
-
-    //         Mail::to($usuario->email)->send(new \App\Mail\DataComemorativaMail($usuario, $mensagemFinal));
-
-    //         // evita bloqueio do servidor de e-mail
-    //         sleep(2);
-    //     }
-        $usuario = $usuarios->first(); // pega o primeiro usuário
-
-        if ($usuario) {
+       foreach ($usuarios as $usuario) {
             $mensagemFinal = [
                 'titulo' => $dataComemorativa->titulo,
                 'mensagem' => $dataComemorativa->mensagem
             ];
 
             Mail::to($usuario->email)->send(new \App\Mail\DataComemorativaMail($usuario, $mensagemFinal));
+
+            // evita bloqueio do servidor de e-mail
+            sleep(2);
         }
+        //$usuario = $usuarios->first(); // pega o primeiro usuário
+
+        // if ($usuario) {
+        //     $mensagemFinal = [
+        //         'titulo' => $dataComemorativa->titulo,
+        //         'mensagem' => $dataComemorativa->mensagem
+        //     ];
+
+        //     Mail::to($usuario->email)->send(new \App\Mail\DataComemorativaMail($usuario, $mensagemFinal));
+        // }
 
 
         // Atualiza o último envio
